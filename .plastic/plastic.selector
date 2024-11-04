@@ -1,0 +1,4 @@
+repository "Gabay_Ziv_CS465RTSPhase1@Rhyander@cloud"
+  path "/"
+    br "/main"
+    co "/main"
