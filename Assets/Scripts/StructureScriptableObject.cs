@@ -7,7 +7,8 @@ public class StructureScriptableObject : ScriptableObject
 {
     public StructureData data;
     public GameObject structurePrefab;
-
+    public List<UnitScriptableObject> structureUnits;  // List of units specific to this structure
+    
     // Start is called before the first frame update
     void Start()
     {
