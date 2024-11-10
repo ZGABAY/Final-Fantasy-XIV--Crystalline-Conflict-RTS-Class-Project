@@ -5,22 +5,22 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638662998813925211
-    m_Hash: 2192381997
+      ticks: 638668115468740672
+    m_Hash: 2507917959
   m_LockFileStatus:
     m_FilePath: C:/Users/zivth/Documents/School/COMP 465/Gabay_Ziv_CS465RTSPhase1/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638662998813955233
-    m_Hash: 1476743022
+      ticks: 638668115511378612
+    m_Hash: 56094792
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/zivth/Documents/School/COMP 465/Gabay_Ziv_CS465RTSPhase1/Packages
-m_EditorVersion: 2022.3.44f1 (c3ae09b9f03c)
+m_EditorVersion: 2022.3.47f1 (88c277b85d21)
 m_ResolvedPackages:
 - packageId: com.unity.ai.navigation@1.1.5
   testable: 0
@@ -194,10 +194,9 @@ m_ResolvedPackages:
     - 2.5.1
     - 2.5.2
     compatible:
-    - 2.4.4
     - 2.5.1
     - 2.5.2
-    recommended: 2.4.4
+    recommended: 2.5.2
     deprecated: []
   dependencies: []
   resolvedDependencies: []
@@ -235,7 +234,7 @@ m_ResolvedPackages:
     revision: 470a7a1321fe499cf5055d6b1d64da3a08c8dcbc
     path: 
   unityLifecycle:
-    version: 2.4.4
+    version: 2.5.1
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -485,12 +484,12 @@ m_ResolvedPackages:
   isDeprecated: 0
   deprecationMessage: 
   fingerprint: 
-- packageId: com.unity.textmeshpro@3.0.6
+- packageId: com.unity.textmeshpro@3.0.7
   testable: 0
   isDirectDependency: 1
-  version: 3.0.6
+  version: 3.0.7
   source: 1
-  resolvedPath: C:\Users\zivth\Documents\School\COMP 465\Gabay_Ziv_CS465RTSPhase1\Library\PackageCache\com.unity.textmeshpro@3.0.6
+  resolvedPath: C:\Users\zivth\Documents\School\COMP 465\Gabay_Ziv_CS465RTSPhase1\Library\PackageCache\com.unity.textmeshpro@3.0.7
   assetPath: Packages/com.unity.textmeshpro
   name: com.unity.textmeshpro
   displayName: TextMeshPro
@@ -499,7 +498,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: Text Rendering
-  type: asset
+  type: assets
   description: 'TextMeshPro is the ultimate text solution for Unity. It''s the perfect
     replacement for Unity''s UI Text and the legacy Text Mesh.
 
@@ -620,7 +619,6 @@ m_ResolvedPackages:
     - 4.0.0-pre.1
     - 4.0.0-pre.2
     compatible:
-    - 3.0.6
     - 3.0.7
     - 3.0.8
     - 3.0.9
@@ -664,16 +662,16 @@ m_ResolvedPackages:
     configSource: 0
   hideInEditor: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637547111200000000
-  documentationUrl: 
+  datePublishedTicks: 638410382150000000
+  documentationUrl: https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
-    revision: 01e57e3b7de18af9dfe9baaa0a0ff5cc4765c899
+    revision: 5c364f204e10eaec84fcbff640ad4d833774c1ed
     path: 
   unityLifecycle:
-    version: 3.0.6
+    version: 3.0.7
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -3742,4 +3740,4 @@ m_ResolvedPackages:
   isDeprecated: 0
   deprecationMessage: 
   fingerprint: 
-m_BuiltInPackagesHash: 74622aa8bed6a1f01bcf171663fedac871fbad9b
+m_BuiltInPackagesHash: c3eb25d0497c2388653acee44055294647de272e
