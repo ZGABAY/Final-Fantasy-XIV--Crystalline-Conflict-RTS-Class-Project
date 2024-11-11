@@ -118,16 +118,16 @@ public class SelectionManager : RTSSingleton<SelectionManager>
     private void GroupSelection(Transform transform)
     {
         var unit = transform.GetComponent<Unit>();
-        switch (unit.data.Type)
+        switch (unit.Type)
         {
             case UnitType.Infantry:
                 {
                     Infantry infantry = (Infantry)unit;
-                    switch (infantry.SubType)
+                    switch (infantry.InfantryType)
                     {
                         case InfantryType.Marine:
                             {
-                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.SubType == InfantryType.Marine).ToList();
+                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.Marine).ToList();
 
                                 foreach (var unitType in unitTypeList)
                                 {
@@ -137,7 +137,7 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                             }
                         case InfantryType.Sniper:
                             {
-                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.SubType == InfantryType.Sniper).ToList();
+                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.Sniper).ToList();
 
                                 foreach (var unitType in unitTypeList)
                                 {
@@ -147,7 +147,7 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                             }
                         case InfantryType.ShockTrooper:
                             {
-                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.SubType == InfantryType.ShockTrooper).ToList();
+                                var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.ShockTrooper).ToList();
 
                                 foreach (var unitType in unitTypeList)
                                 {

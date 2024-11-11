@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class GameManager : RTSSingleton<GameManager>
 {
+   public static event System.Action<int> OnUpdateEnemyCount; // Define update enemy count event
    public GameObject soldierPrefab;
    public GameObject marinePrefab;
    public GameObject sniperPrefab;
@@ -59,6 +60,9 @@ public class GameManager : RTSSingleton<GameManager>
             var newUnit = GameObject.Instantiate(unitPrefab, unitSpawnPoint.position, Quaternion.identity);
             newUnit.name = $"newUnit{unitCount}";
             unitCount++;
+
+            // Trigger the OnUpdateEnemyCount event
+            OnUpdateEnemyCount?.Invoke(unitCount);
 
             // need to re-calculate the nav mesh
             var newUnitAgent = newUnit.transform.GetComponent<NavMeshAgent>();

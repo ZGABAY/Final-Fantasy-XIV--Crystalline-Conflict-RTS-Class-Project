@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unit;
+using static UnitScriptableObject;
+using static Aircraft;
 
 public class UnitController : MonoBehaviour
 {
@@ -51,7 +54,7 @@ public class UnitController : MonoBehaviour
             }
         }
 
-        if (unitData.data.Type == UnitType.Aircraft && IsSelected)
+        if (unitData.Type == UnitType.Aircraft && IsSelected)
         {
             if (agent.remainingDistance <= 0)
             {

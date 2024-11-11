@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Infantry;
 
 // Different types of units
 public enum UnitType
@@ -19,6 +20,7 @@ public class Unit : MonoBehaviour, IUnit
     public int AttackDamage;
     public int Armor;
     public int MovementSpeed;
+    public InfantryType infantryType;
 
     public UnitType Type;
 
