@@ -20,7 +20,7 @@ m_EmbeddedPackageManifests:
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/zivth/Documents/School/COMP 465/Gabay_Ziv_CS465RTSPhase1/Packages
-m_EditorVersion: 2022.3.47f1 (88c277b85d21)
+m_EditorVersion: 2022.3.44f1 (c3ae09b9f03c)
 m_ResolvedPackages:
 - packageId: com.unity.ai.navigation@1.1.5
   testable: 0
@@ -194,9 +194,10 @@ m_ResolvedPackages:
     - 2.5.1
     - 2.5.2
     compatible:
+    - 2.4.4
     - 2.5.1
     - 2.5.2
-    recommended: 2.5.2
+    recommended: 2.4.4
     deprecated: []
   dependencies: []
   resolvedDependencies: []
@@ -234,7 +235,7 @@ m_ResolvedPackages:
     revision: 470a7a1321fe499cf5055d6b1d64da3a08c8dcbc
     path: 
   unityLifecycle:
-    version: 2.5.1
+    version: 2.4.4
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -619,6 +620,7 @@ m_ResolvedPackages:
     - 4.0.0-pre.1
     - 4.0.0-pre.2
     compatible:
+    - 3.0.6
     - 3.0.7
     - 3.0.8
     - 3.0.9
@@ -671,7 +673,7 @@ m_ResolvedPackages:
     revision: 5c364f204e10eaec84fcbff640ad4d833774c1ed
     path: 
   unityLifecycle:
-    version: 3.0.7
+    version: 3.0.6
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -3740,4 +3742,4 @@ m_ResolvedPackages:
   isDeprecated: 0
   deprecationMessage: 
   fingerprint: 
-m_BuiltInPackagesHash: c3eb25d0497c2388653acee44055294647de272e
+m_BuiltInPackagesHash: 74622aa8bed6a1f01bcf171663fedac871fbad9b

@@ -31,31 +31,53 @@ public class GameManager : RTSSingleton<GameManager>
       UIManager.OnCreateUnitSO -= UIManager_OnCreateUnitSO;
    }
 
-   private void UIManager_OnCreateUnit(Unit unit)
-   {
-      Debug.Log(unit.Type + " " + unit.Name);
-      GameObject unitPrefab = null;
+    private void UIManager_OnCreateUnit(Unit unit)
+    {
+        Debug.Log(unit.Type + " " + unit.Name);
+        GameObject unitPrefab = null;
 
-      if (unit.Type == UnitType.Infantry)
-      {
-         var infantryUnit = unit as Infantry;
-         switch (infantryUnit.InfantryType)
-         {
-            case InfantryType.Soldier:
-               unitPrefab = soldierPrefab;
-               break;
-            case InfantryType.Marine:
-               unitPrefab = marinePrefab;
-               break;
-            case InfantryType.Sniper:
-               unitPrefab = sniperPrefab;
-               break;
-            case InfantryType.ShockTrooper:
-               unitPrefab = shockTrooperPrefab;
-               break;
-         }
-         if (unitPrefab != null)
-         {
+        switch (unit.Type)
+        {
+            case UnitType.Paladin:
+                unitPrefab = paladinPrefab;
+                break;
+            case UnitType.BlackMage:
+                unitPrefab = blackMagePrefab;
+                break;
+            case UnitType.Scholar:
+                unitPrefab = scholarPrefab;
+                break;
+            case UnitType.Dancer:
+                unitPrefab = dancerPrefab;
+                break;
+            case UnitType.Culinarian:
+                unitPrefab = culinarianPrefab;
+                break;
+            case UnitType.Carpenter:
+                unitPrefab = carpenterPrefab;
+                break;
+            case UnitType.Botanist:
+                unitPrefab = botanistPrefab;
+                break;
+            case UnitType.Miner:
+                unitPrefab = minerPrefab;
+                break;
+            case UnitType.Monk:
+                unitPrefab = monkPrefab;
+                break;
+            case UnitType.Soldier:
+                unitPrefab = soldierPrefab;
+                break;
+            case UnitType.Alchemist:
+                unitPrefab = alchemistPrefab;
+                break;
+            case UnitType.Blacksmith:
+                unitPrefab = blacksmithPrefab;
+                break;
+        }
+
+        if (unitPrefab != null)
+        {
             // instantiate the unit here ...
             var newUnit = GameObject.Instantiate(unitPrefab, unitSpawnPoint.position, Quaternion.identity);
             newUnit.name = $"newUnit{unitCount}";
@@ -72,16 +94,15 @@ public class GameManager : RTSSingleton<GameManager>
             bool hit = NavMesh.SamplePosition(unitSpawnPoint.position, out meshHit, 100, 1);
             if (hit)
             {
-               newUnitAgent.Warp(meshHit.position);
-               newUnitAgent.enabled = true;
+                newUnitAgent.Warp(meshHit.position);
+                newUnitAgent.enabled = true;
             }
 
             // Deselect the unit after creating it
             var newUnitController = newUnit.transform.GetComponent<UnitController>();
             newUnitController.IsSelected = false;
-         }
-      }
-   }
+        }
+    }
    private void UIManager_OnCreateUnitSO(UnitScriptableObject unitSO)
    {
       throw new System.NotImplementedException();

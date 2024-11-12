@@ -2,121 +2,90 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class SelectionManager : RTSSingleton<SelectionManager>
+public class SelectionManager : MonoBehaviour
 {
-    Camera cam;
-
-    public LayerMask groundLayer;
-    public LayerMask selectableLayer;
-
-    public GameObject groundMarker;
+    private readonly List<GameObject> currentSelected = new();
     public GameObject groundMarkerPrefab;
+    private GameObject selectionCircle;
+    public GameObject selectionCirclePrefab;
+    private GameObject groundMarker;
+    public LayerMask groundLayer;
+    public LayerMask unitLayer;
 
-    public List<GameObject> allSelectables = new List<GameObject>();
-    public List<GameObject> currentSelected = new List<GameObject>();
-
-    public bool IsPlacingStructure;
-    public int raycaseDistance = 1000;
-
-    private void OnEnable()
-    {
-        StructureManager.OnPlaceStructure += StructureManager_OnPlaceStructure;
-    }
-
-    private void OnDisable()
-    {
-        StructureManager.OnPlaceStructure -= StructureManager_OnPlaceStructure;
-    }
-
-    private void StructureManager_OnPlaceStructure(bool value)
-    {
-        IsPlacingStructure = value;
-    }
-
-
-    private void OnDestroy()
-    {
-        allSelectables.Clear();
-        currentSelected.Clear();
-
-        allSelectables = null;
-        currentSelected = null;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsPlacingStructure)
-            return;
-
+        // When the player left clicks
         if (Input.GetMouseButtonDown(0))
         {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, raycaseDistance, selectableLayer))
+            // Check for where the mouse ray hit
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, unitLayer))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (groundMarker != null)
                 {
-                    MultiSelect(hit.collider.gameObject);
+                    groundMarker.SetActive(false);
                 }
-                else
-                {
-                    // select unit
-                    SelectByClicking(hit.collider.gameObject);
-
-                    // Check for double click
-                    if (DoubleClick())
-                    {
-                        // select all similar unit types
-                        DeselectAll();
-                        GroupSelection(hit.collider.transform);
-                    }
-
-                }
+                GameObject clickedUnit = hit.collider.gameObject;
+                SelectByClicking(clickedUnit);
             }
             else
             {
-
-                if (!Input.GetKey(KeyCode.LeftShift))
+                // Deselect all units and deactives the ground marker
+                DeselectAll();
+                if (groundMarker != null)
                 {
-                    // de-select unit(s)
-                    DeselectAll();
+                    groundMarker.SetActive(false);
                 }
             }
         }
 
+        // When the player right clicks
         if (Input.GetMouseButtonDown(1))
         {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, raycaseDistance, groundLayer))
+            // Check for where the mouse ray hit
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
             {
-                groundMarker.transform.position = new Vector3(hit.point.x, groundMarker.transform.position.y, hit.point.z);
+                Vector3 targetPosition = hit.point;
 
-                groundMarker.gameObject.SetActive(false);
-                groundMarker.gameObject.SetActive(true);
+                // All selected units move to where player clicked
+                foreach (var unit in currentSelected)
+                {
+                    MoveUnitToPosition(unit, targetPosition);
+                }
 
-                var gm = GameObject.Instantiate(groundMarkerPrefab,
-                                                new Vector3(hit.point.x, hit.point.y, hit.point.z),
-                                                Quaternion.identity);
+                // Place groundMarker at the target position if there is not one already
+                if (groundMarker == null)
+                {
+                    groundMarker = Instantiate(groundMarkerPrefab);
+                }
+                groundMarker.transform.position = targetPosition + Vector3.up * 0.1f;
+                groundMarker.SetActive(true);
 
-                Destroy(gm, 0.5f);
             }
         }
     }
 
     private void GroupSelection(Transform transform)
     {
+        Debug.Log("Group selection: " + transform.name);
+
         var unit = transform.GetComponent<Unit>();
         switch (unit.Type)
         {
@@ -127,6 +96,8 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                     {
                         case InfantryType.Marine:
                             {
+                                Debug.Log("Marine selected");
+
                                 var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.Marine).ToList();
 
                                 foreach (var unitType in unitTypeList)
@@ -137,6 +108,8 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                             }
                         case InfantryType.Sniper:
                             {
+                                Debug.Log("Sniper selected");
+
                                 var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.Sniper).ToList();
 
                                 foreach (var unitType in unitTypeList)
@@ -147,6 +120,8 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                             }
                         case InfantryType.ShockTrooper:
                             {
+                                Debug.Log("Shock Trooper selected");
+
                                 var unitTypeList = GameObject.FindObjectsOfType<Infantry>().Where(x => x.InfantryType == InfantryType.ShockTrooper).ToList();
 
                                 foreach (var unitType in unitTypeList)
@@ -155,93 +130,68 @@ public class SelectionManager : RTSSingleton<SelectionManager>
                                 }
                                 break;
                             }
-
                     }
                     break;
                 }
         }
     }
 
-    private void MultiSelect(GameObject unit)
+    private void MultiSelect(GameObject gameObject)
     {
-        if (!currentSelected.Contains(unit))
+        throw new NotImplementedException();
+    }
+
+    private void MoveUnitToPosition(GameObject unit, Vector3 targetPosition)
+    {
+        NavMeshAgent agent = unit.GetComponent<NavMeshAgent>();
+        if (agent != null)
         {
-            currentSelected.Add(unit);
-            SelectUnit(unit, true);
+            agent.SetDestination(targetPosition);
         }
         else
         {
-            SelectUnit(unit, false);
-            currentSelected.Remove(unit);
+            Debug.LogError("No NavMeshAgent component found on " + unit.name);
         }
     }
 
-    private void SelectByClicking(GameObject unit)
+    public void SelectByClicking(GameObject unit)
     {
+        Debug.Log("Selected unit: " + unit.name);
+
         DeselectAll();
-
         currentSelected.Add(unit);
-
         EnableUnitMovement(unit, true);
+
+        // Create selection circle above unit(s)
+        selectionCircle = Instantiate(selectionCirclePrefab, unit.transform);
+        selectionCircle.transform.localPosition = Vector3.zero + Vector3.up * 1.2f; // Position it at the unit's position
+        unit.GetComponent<UnitController>().selectionCircle = selectionCircle; // Assuming UnitController script        
     }
 
-    public void DeselectAll()
+    private void DeselectAll()
     {
         foreach (var unit in currentSelected)
         {
-            SelectUnit(unit, false);
+            // Remove selection circle
+            var unitController = unit.GetComponent<UnitController>();
+            if (unitController != null && unitController.selectionCircle != null)
+            {
+                Destroy(unitController.selectionCircle);
+                unitController.selectionCircle = null;
+            }
         }
-
-        groundMarker.SetActive(false);
-
         currentSelected.Clear();
+        groundMarkerPrefab.SetActive(false);
     }
 
-    private void EnableUnitMovement(GameObject unit, bool canMove)
+    private void EnableUnitMovement(GameObject unit, bool enable)
     {
-        UnitSelectionIndicator(unit, canMove);
-        unit.GetComponent<UnitController>().IsSelected = canMove;
-    }
+        Debug.Log("Unit movement enabled: " + enable);
 
-    private void UnitSelectionIndicator(GameObject unit, bool selected)
-    {
-        // this could should be improved, this was done during the initial
-        // demonstration phase
-        unit.transform.GetChild(1).gameObject.SetActive(selected);
-    }
-
-    internal void DragSelect(GameObject unit)
-    {
-        if (!currentSelected.Contains(unit))
+        NavMeshAgent agent = unit.GetComponent<NavMeshAgent>();
+        if (agent != null)
         {
-            currentSelected.Add(unit);
-
-            SelectUnit(unit, true);
+            agent.enabled = enable;
         }
-    }
-
-    private void SelectUnit(GameObject unit, bool IsSelected)
-    {
-        UnitSelectionIndicator(unit, IsSelected);
-        EnableUnitMovement(unit, IsSelected);
-    }
-
-    float clicked = 0;
-    float clicktime = 0;
-    float clickdelay = 0.5f;
-
-    bool DoubleClick()
-    {
-        clicked++;
-        if (clicked == 1) clicktime = Time.time;
-
-        if (clicked > 1 && Time.time - clicktime < clickdelay)
-        {
-            clicked = 0;
-            clicktime = 0;
-            return true;
-        }
-        else if (clicked > 2 || Time.time - clicktime > 1) clicked = 0;
-        return false;
     }
 }
